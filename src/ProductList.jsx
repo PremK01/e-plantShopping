@@ -1,3 +1,4 @@
+// src/ProductList.jsx
 import React, { useState } from 'react';
 import './ProductList.css';
 import { useDispatch } from 'react-redux';
