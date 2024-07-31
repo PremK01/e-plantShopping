@@ -1,18 +1,27 @@
-// src/ProductList.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductList.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice'; // Import the addItem reducer
 import CartItem from './CartItem';
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false);
     const [addedToCart, setAddedToCart] = useState({}); // State to track which products are added to the cart
-    const dispatch = useDispatch(); // Initialize dispatch from react-redux
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.items); // Get cart items from the store
 
     const plantsArray = [
         // Plant objects as defined
     ];
+
+    useEffect(() => {
+        // Initialize the cart state if needed
+        const initialCartState = cartItems.reduce((acc, item) => {
+            acc[item.name] = true;
+            return acc;
+        }, {});
+        setAddedToCart(initialCartState);
+    }, [cartItems]);
 
     const handleAddToCart = (plant) => {
         dispatch(addItem(plant)); // Dispatch the plant to add to the cart
